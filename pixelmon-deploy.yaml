@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pixelmonserver
+spec:
+  selector:
+      matchLabels:
+        app: pixelmonserver
+  replicas: 1
+  template:
+      metadata:
+        labels:
+            app: pixelmonserver
+      spec:
+        containers:
+        - name: pixelmonserver
+          image: itzg/minecraft-server
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "100m"
+            limits:
+              memory: "1512Mi"
+              cpu: "1000m"
+          ports:
+          - containerPort: 25565
+          env:
+          - name: EULA
+            value: "TRUE"
+          - name: TYPE
+            value: "FORGE"
+          - name: VERSION
+            value: "1.12.2"
+          - name: "FORGEVERSION"
+            value: "14.23.5.2838"
+          - name: server-name
+            value: "PixelTom"
+          - name: motd
+            value: "PixelTom Minecraft Server"
+          - name: OPS
+            value: "TurboTom911"
+          volumeMounts:
+          - mountPath: "/data"
+            name: volume
+        volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: pixelmonserver-disk

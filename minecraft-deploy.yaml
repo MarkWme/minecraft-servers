@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraftserver
+spec:
+  selector:
+      matchLabels:
+        app: minecraftserver
+  replicas: 1
+  template:
+      metadata:
+        labels:
+            app: minecraftserver
+      spec:
+        containers:
+        - name: minecraftserver
+          image: itzg/minecraft-server
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "100m"
+            limits:
+              memory: "1512Mi"
+              cpu: "1000m"
+          ports:
+          - containerPort: 25565
+          env:
+          - name: EULA
+            value: "TRUE"
+          - name: server-name
+            value: "Tomcraft"
+          - name: motd
+            value: "Tomcraft Minecraft Server"
+          volumeMounts:
+          - mountPath: "/data"
+            name: volume
+        volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: minecraftserver-disk
