@@ -1,6 +1,0 @@
-GET https://api.github.com/users/markwme
-
-###
-
-curl -d '{"EmailAddress": "email@domain.com", "Product": "prod-1", "Total": 100}' -H "Content-Type: application/json" -X POST http://40.118.97.115/v1/order
-
