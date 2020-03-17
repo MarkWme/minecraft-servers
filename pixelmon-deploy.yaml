@@ -35,9 +35,9 @@ spec:
           - name: "FORGEVERSION"
             value: "14.23.5.2838"
           - name: server-name
-            value: "PixelTom"
+            value: "PixelBomb"
           - name: motd
-            value: "PixelTom Minecraft Server"
+            value: "PixelBomb Minecraft Server"
           - name: OPS
             value: "TurboTom911"
           volumeMounts:
