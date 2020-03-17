@@ -34,6 +34,8 @@ spec:
             value: "1.12.2"
           - name: "FORGEVERSION"
             value: "14.23.5.2838"
+          - name: "level-seed"
+            value: "-1766999811"
           - name: server-name
             value: "PixelBomb"
           - name: motd
