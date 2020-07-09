@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minecraftserver
+  namespace: minecraft
 spec:
   selector:
       matchLabels:
@@ -14,8 +15,8 @@ spec:
       spec:
         containers:
         - name: minecraftserver
-          image: itzg/minecraft-server
-          imagePullPolicy: Always
+          image: itzg/minecraft-server:latest
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               memory: "1024Mi"
@@ -28,10 +29,18 @@ spec:
           env:
           - name: EULA
             value: "TRUE"
-          - name: server-name
-            value: "Tomcraft"
+          - name: TZ
+            value: "Europe/London"
+          - name: SERVER_NAME
+            value: "Turbocraft"
+          - name: MOTD
+            value: "E G G"
+          - name: WHITELIST
+            value: "TurboTom911,ilikecheesecake"
+          - name: OPS
+            value: "TurboTom911"
           - name: motd
-            value: "Tomcraft Minecraft Server"
+            value: "Turbo Minecraft Server"
           volumeMounts:
           - mountPath: "/data"
             name: volume
