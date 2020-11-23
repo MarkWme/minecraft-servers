@@ -35,8 +35,10 @@ spec:
             value: "Turbocraft"
           - name: MOTD
             value: "E G G"
+          - name: ICON
+            value: "https://cloudtech10.blob.core.windows.net/assets/goldapple.jpg"
           - name: WHITELIST
-            value: "TurboTom911,ilikecheesecake"
+            value: "TurboTom911,ilikecheesecake,Meme_Master_OJ"
           - name: OPS
             value: "TurboTom911"
           - name: motd
