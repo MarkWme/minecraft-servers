@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fabric
+spec:
+  selector:
+      matchLabels:
+        app: fabric
+  replicas: 1
+  template:
+      metadata:
+        labels:
+            app: fabric
+      spec:
+        containers:
+        - name: fabric
+          image: itzg/minecraft-server
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "100m"
+            limits:
+              memory: "1512Mi"
+              cpu: "1000m"
+          ports:
+          - containerPort: 25565
+          env:
+          - name: EULA
+            value: "TRUE"
+          - name: TYPE
+            value: "FABRIC"
+          - name: VERSION
+            value: "1.17.1"
+          - name: server-name
+            value: "SirEricPSpendworthysomethingalongthoselines"
+          - name: motd
+            value: "This server is the property of Spendworthy Heavy Industries Inc."
+          - name: OPS
+            value: "AHollowKnightFan"
+          volumeMounts:
+          - mountPath: "/data"
+            name: volume
+        volumes:
+        - name: volume
+          persistentVolumeClaim:
+            claimName: fabric-disk
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fabric
+spec:
+  selector:
+    app: fabric
+  ports:
+  - protocol: TCP
+    port: 25565
+    targetPort: 25565
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fabric-disk
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: default
+  resources:
+    requests:
+      storage: 5Gi
