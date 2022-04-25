@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fabric
+  name: forgeserver
 spec:
   selector:
       matchLabels:
-        app: fabric
+        app: forgeserver
   replicas: 1
   template:
       metadata:
         labels:
-            app: fabric
+            app: forgeserver
       spec:
         containers:
-        - name: fabric
+        - name: forgemonserver
           image: itzg/minecraft-server
           imagePullPolicy: Always
           resources:
             requests:
               memory: "2512Mi"
-              cpu: "1400m"
+              cpu: "1500m"
             limits:
               memory: "2512Mi"
-              cpu: "1400m"
+              cpu: "1500m"
           ports:
           - containerPort: 25565
           env:
@@ -31,13 +31,15 @@ spec:
           - name: EULA
             value: "TRUE"
           - name: TYPE
-            value: "FABRIC"
+            value: "FORGE"
           - name: VERSION
             value: "1.18.1"
+          - name: "level-seed"
+            value: "-1766999811"
           - name: server-name
-            value: "SirEricPSpendworthysomethingalongthoselines"
+            value: "Forge"
           - name: motd
-            value: "This server is the property of Spendworthy Heavy Industries Inc."
+            value: "Forge Minecraft Server"
           - name: OPS
             value: "AHollowKnightFan"
           volumeMounts:
@@ -46,25 +48,12 @@ spec:
         volumes:
         - name: volume
           persistentVolumeClaim:
-            claimName: fabric-disk
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fabric
-spec:
-  selector:
-    app: fabric
-  ports:
-  - protocol: TCP
-    port: 25565
-    targetPort: 25565
-  type: LoadBalancer
+            claimName: forgeserver-disk
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fabric-disk
+  name: forgeserver-disk
 spec:
   accessModes:
   - ReadWriteOnce
@@ -72,3 +61,16 @@ spec:
   resources:
     requests:
       storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forgeserver
+spec:
+  selector:
+    app: forgeserver
+  ports:
+  - protocol: TCP
+    port: 25565
+    targetPort: 25565
+  type: LoadBalancer
